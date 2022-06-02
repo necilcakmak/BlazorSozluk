@@ -12,7 +12,10 @@ namespace BlazorSozluk.Infrastructure.Persistence.Context
     public class BlazorSozlukContext : DbContext
     {
         public const string DEFAULT_SCHEMA = "dbo";
+        public BlazorSozlukContext()
+        {
 
+        }
         public BlazorSozlukContext(DbContextOptions options) : base(options)
         {
         }
@@ -28,6 +31,17 @@ namespace BlazorSozluk.Infrastructure.Persistence.Context
 
         public DbSet<EmailConfirmation> EmailConfirmations { get; set; }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                var connStr = "Data Source=localhost;Initial Catalog=blazorsozluk;Persist Security Info=True;User ID=sa;Password=necil123";
+                optionsBuilder.UseSqlServer(connStr, opt =>
+                {
+                    opt.EnableRetryOnFailure();
+                });
+            }
+        }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
