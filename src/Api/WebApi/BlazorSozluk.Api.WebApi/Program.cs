@@ -1,10 +1,16 @@
+using BlazorSozluk.Api.Application.Extensions;
 using BlazorSozluk.Infrastructure.Persistence.Extensions;
+using FluentValidation.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddInfrastructureRegistration(builder.Configuration);
-builder.Services.AddControllers();
+builder.Services.AddApplicationRegistration();
+builder.Services.AddControllers().AddJsonOptions(opt =>
+{
+    opt.JsonSerializerOptions.PropertyNamingPolicy = null;
+}).AddFluentValidation();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
