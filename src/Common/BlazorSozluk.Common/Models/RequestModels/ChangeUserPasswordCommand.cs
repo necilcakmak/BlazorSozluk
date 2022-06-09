@@ -5,15 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlazorSozluk.Common.Events.User
+namespace BlazorSozluk.Common.Models.RequestModels
 {
-    public class ChangeUserPasswordComment : IRequest<bool>
+    public class ChangeUserPasswordCommand : IRequest<bool>
     {
         public Guid? UserId { get; set; }
         public string OldPassword { get; set; }
         public string NewPassword { get; set; }
 
-        public ChangeUserPasswordComment(Guid? userId, string oldPassword, string newPassword)
+        public ChangeUserPasswordCommand(Guid? userId, string oldPassword, string newPassword)
         {
             UserId = userId;
             OldPassword = oldPassword;

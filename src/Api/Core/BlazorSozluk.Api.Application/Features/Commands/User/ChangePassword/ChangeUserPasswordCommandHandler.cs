@@ -2,6 +2,7 @@
 using BlazorSozluk.Common.Events.User;
 using BlazorSozluk.Common.Infrastructure;
 using BlazorSozluk.Common.Infrastructure.Exceptions;
+using BlazorSozluk.Common.Models.RequestModels;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace BlazorSozluk.Api.Application.Features.Commands.User.ChangePassword
 {
-    public class ChangeUserPasswordCommandHandler : IRequestHandler<ChangeUserPasswordComment, bool>
+    public class ChangeUserPasswordCommandHandler : IRequestHandler<ChangeUserPasswordCommand, bool>
     {
         private readonly IUserRepository userRepository;
 
@@ -20,7 +21,7 @@ namespace BlazorSozluk.Api.Application.Features.Commands.User.ChangePassword
             this.userRepository = userRepository;
         }
 
-        public async Task<bool> Handle(ChangeUserPasswordComment request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(ChangeUserPasswordCommand request, CancellationToken cancellationToken)
         {
             if (!request.UserId.HasValue)
                 throw new ArgumentNullException(nameof(request.UserId));

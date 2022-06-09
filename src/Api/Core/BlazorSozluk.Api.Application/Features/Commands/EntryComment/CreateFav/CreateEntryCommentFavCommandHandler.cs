@@ -13,13 +13,13 @@ namespace BlazorSozluk.Api.Application.Features.Commands.EntryComment.CreateFav
     public class CreateEntryCommentFavCommandHandler : IRequestHandler<CreateEntryCommentFavCommand, bool>
     {
 
-        public Task<bool> Handle(CreateEntryCommentFavCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(CreateEntryCommentFavCommand request, CancellationToken cancellationToken)
         {
             QueueFactory.SendMessageToExchange(exchangeName: SozlukConstants.FavExchangeName,
                 exchangeType: SozlukConstants.DefaultExchangeType,
                 queueName: SozlukConstants.CreateEntryCommentFavQueueName,
                 obj: new CreateEntryCommentFavEvent() { EntryCommentId = request.EntryCommentId, CreatedBy = request.UserId });
-            return Task.FromResult(true);
+            return await Task.FromResult(true);
         }
     }
 }
