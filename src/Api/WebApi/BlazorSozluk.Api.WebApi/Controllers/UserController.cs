@@ -1,4 +1,5 @@
 ﻿using BlazorSozluk.Api.Application.Features.Commands.User.ConfirmEmail;
+using BlazorSozluk.Api.Application.Features.Queries.GetUserDetail;
 using BlazorSozluk.Common.Events.User;
 using BlazorSozluk.Common.Models.RequestModels;
 using MediatR;
@@ -16,6 +17,22 @@ namespace BlazorSozluk.Api.WebApi.Controllers
         public UserController(IMediator mediator)
         {
             this.mediator = mediator;
+        }
+
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<IActionResult> Get(Guid id)
+        {
+            var res = await mediator.Send(new GetUserDetailQuery(id));
+            return Ok(res);
+        }
+
+        [HttpGet]
+        [Route("UserName/{userName}")]
+        public async Task<IActionResult> GetByUserName(string userName)
+        {
+            var res = await mediator.Send(new GetUserDetailQuery(Guid.Empty, userName));
+            return Ok(res);
         }
 
         [HttpPost]
