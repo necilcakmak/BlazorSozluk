@@ -20,7 +20,7 @@ namespace BlazorSozluk.Common.Infrastructure
 
         public static EventingBasicConsumer CreateBasicConsumer()
         {
-            var factory = new ConnectionFactory() { HostName = SozlukConstants.RabbitMQHost };
+            var factory = new ConnectionFactory() { HostName = SozlukConstants.RabbitMQHost, Port = 5672, UserName = SozlukConstants.UserName, Password = SozlukConstants.Password };
             var connection = factory.CreateConnection();
             var channel = connection.CreateModel();
             return new EventingBasicConsumer(channel);

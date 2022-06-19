@@ -9,6 +9,8 @@ namespace BlazorSozluk.Common
     public class SozlukConstants
     {
         public const string RabbitMQHost = "localhost";
+        public const string UserName = "necil";
+        public const string Password = "1234";
         public const string DefaultExchangeType = "direct";
 
         public const string UserExchangeName = "UserExchange";
