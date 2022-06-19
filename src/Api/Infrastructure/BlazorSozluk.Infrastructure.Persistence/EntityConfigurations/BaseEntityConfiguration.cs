@@ -14,9 +14,9 @@ namespace BlazorSozluk.Infrastructure.Persistence.EntityConfigurations
         public virtual void Configure(EntityTypeBuilder<T> builder)
         {
             builder.HasKey(i => i.Id);
+            builder.Property(c => c.Id).HasColumnType("uuid").HasDefaultValueSql("uuid_generate_v4()");
 
-            builder.Property(i => i.Id).ValueGeneratedOnAdd();
-            builder.Property(i => i.CreatedDate).ValueGeneratedOnAdd();
+            builder.Property(c => c.CreatedDate).HasDefaultValue(DateTime.UtcNow);
         }
     }
 }

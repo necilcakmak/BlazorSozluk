@@ -55,15 +55,11 @@ namespace BlazorSozluk.WebApp.Infrastructure.Extensions
         public static async Task<string> GetToken(this ILocalStorageService localStorageService)
         {
             var token = await localStorageService.GetItemAsync<string>(TokenName);
-            if (string.IsNullOrEmpty(token))
-                token = "";
             return token;
         }
         public static string GetToken(this ISyncLocalStorageService localStorageService)
         {
             var token = localStorageService.GetItem<string>(TokenName);
-            if (string.IsNullOrEmpty(token))
-                token = "";
             return token;
         }
 

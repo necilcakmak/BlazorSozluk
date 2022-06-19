@@ -17,7 +17,7 @@ namespace BlazorSozluk.Infrastructure.Persistence.Context
         {
             var result = new Faker<User>("tr")
                 .RuleFor(i => i.Id, i => Guid.NewGuid())
-                .RuleFor(i => i.CreatedDate, i => i.Date.Between(DateTime.Now.AddDays(-100), DateTime.Now))
+                .RuleFor(i => i.CreatedDate, i => i.Date.Between(DateTime.UtcNow.AddDays(-100), DateTime.UtcNow))
                 .RuleFor(i => i.FirstName, i => i.Person.FirstName)
                 .RuleFor(i => i.LastName, i => i.Person.LastName)
                 .RuleFor(i => i.Email, i => i.Internet.Email())
@@ -30,7 +30,7 @@ namespace BlazorSozluk.Infrastructure.Persistence.Context
         public async Task SeedAsync(IConfiguration configuration)
         {
             var dbContextBuilder = new DbContextOptionsBuilder();
-            dbContextBuilder.UseSqlServer(configuration["BlazorSozlukConnection"]);
+            dbContextBuilder.UseNpgsql(configuration["BlazorSozlukConnection"]);
 
             var context = new BlazorSozlukContext(dbContextBuilder.Options);
             if (context.Users.Any())
@@ -46,7 +46,7 @@ namespace BlazorSozluk.Infrastructure.Persistence.Context
             int counter = 0;
             var entries = new Faker<Entry>("tr")
                 .RuleFor(i => i.Id, i => guids[counter++])
-                .RuleFor(i => i.CreatedDate, i => i.Date.Between(DateTime.Now.AddDays(-100), DateTime.Now))
+                .RuleFor(i => i.CreatedDate, i => i.Date.Between(DateTime.UtcNow.AddDays(-100), DateTime.UtcNow))
                 .RuleFor(i => i.Subject, i => i.Lorem.Sentence(5, 5))
                 .RuleFor(i => i.Content, i => i.Lorem.Paragraph(2))
                 .RuleFor(i => i.CreatedById, i => i.PickRandom(userIds)).Generate(50);
@@ -54,7 +54,7 @@ namespace BlazorSozluk.Infrastructure.Persistence.Context
 
             var comments = new Faker<EntryComment>("tr")
                 .RuleFor(i => i.Id, i => Guid.NewGuid())
-                .RuleFor(i => i.CreatedDate, i => i.Date.Between(DateTime.Now.AddDays(-100), DateTime.Now))
+                .RuleFor(i => i.CreatedDate, i => i.Date.Between(DateTime.UtcNow.AddDays(-100), DateTime.UtcNow))
                 .RuleFor(i => i.Content, i => i.Lorem.Paragraph(2))
                 .RuleFor(i => i.CreatedById, i => i.PickRandom(userIds))
                 .RuleFor(i => i.EntryId, i => i.PickRandom(guids)).Generate(50);

@@ -18,10 +18,9 @@ namespace BlazorSozluk.Infrastructure.Persistence.Extensions
         {
             services.AddDbContext<BlazorSozlukContext>(conf =>
             {
-                conf.UseSqlServer(configuration["BlazorSozlukConnection"], opt =>
+                conf.UseNpgsql(configuration["BlazorSozlukConnection"], opt =>
                 {
                     opt.EnableRetryOnFailure();
-
                 });
             });
             var seedData = new SeedData();

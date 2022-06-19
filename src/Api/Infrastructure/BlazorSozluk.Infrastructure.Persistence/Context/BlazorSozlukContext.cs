@@ -35,15 +35,17 @@ namespace BlazorSozluk.Infrastructure.Persistence.Context
         {
             if (!optionsBuilder.IsConfigured)
             {
-                var connStr = "Data Source=localhost;Initial Catalog=blazorsozluk;Persist Security Info=True;User ID=sa;Password=necil123";
-                optionsBuilder.UseSqlServer(connStr, opt =>
+                var connStr = "User ID=postgres;Password=1234;Server=localhost;Port=5432;Database=BlazorSozluk;Integrated Security=true;Pooling=true;";
+                optionsBuilder.UseNpgsql(connStr, opt =>
                 {
                     opt.EnableRetryOnFailure();
                 });
             }
         }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.HasPostgresExtension("uuid-ossp");
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
         public override int SaveChanges()
@@ -77,7 +79,7 @@ namespace BlazorSozluk.Infrastructure.Persistence.Context
             foreach (var entity in entities)
             {
                 if (entity.CreatedDate == DateTime.MinValue)
-                    entity.CreatedDate = DateTime.Now;
+                    entity.CreatedDate = DateTime.UtcNow;
             }
         }
     }

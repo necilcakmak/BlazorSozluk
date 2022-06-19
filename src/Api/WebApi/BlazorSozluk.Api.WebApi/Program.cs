@@ -4,18 +4,27 @@ using BlazorSozluk.Infrastructure.Persistence.Extensions;
 using FluentValidation.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
+var environmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
+var configuration = new ConfigurationBuilder()
+    .SetBasePath(Directory.GetCurrentDirectory())
+    .AddJsonFile("appsettings.json", false)
+    .AddJsonFile($"appsettings.{environmentName}.json", true)
+    .AddEnvironmentVariables()
+    .Build();
 // Add services to the container.
-builder.Services.AddInfrastructureRegistration(builder.Configuration);
+builder.Services.AddInfrastructureRegistration(configuration);
 builder.Services.AddApplicationRegistration();
+builder.Services.ConfigureAuth(configuration);
 builder.Services.AddControllers().AddJsonOptions(opt =>
 {
     opt.JsonSerializerOptions.PropertyNamingPolicy = null;
-}).AddFluentValidation();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+}).AddFluentValidation().ConfigureApiBehaviorOptions(o => o.SuppressModelStateInvalidFilter = true);
+
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.ConfigureAuth(builder.Configuration);
+
 
 builder.Services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
 {
