@@ -59,7 +59,8 @@ namespace BlazorSozluk.Api.Application.Features.Commands.User.Login
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
             var expiry = DateTime.Now.AddDays(10);
             var token = new JwtSecurityToken(claims: claims, expires: expiry, signingCredentials: creds, notBefore: DateTime.Now);
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            var jwtToken= new JwtSecurityTokenHandler().WriteToken(token);
+            return jwtToken;
         }
     }
 }

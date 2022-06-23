@@ -4,5 +4,7 @@
     {
         Task DeleteEntryCommentVote(Guid entryCommentId);
         Task DeleteEntryVote(Guid entryId);
+        Task CreateEntryUpVote(Guid entryId);
+        Task CreateEntryDownVote(Guid entryId);
     }
 }

@@ -10,6 +10,12 @@ namespace BlazorSozluk.WebApp.Infrastructure.Services
         {
             this.client = client;
         }
+        public async Task CreateEntryUpVote(Guid entryId)
+        {
+            var response = await client.PostAsync($"/api/Vote/DeleteEntryVote/{entryId}", null);
+            if (!response.IsSuccessStatusCode)
+                throw new Exception("DeleteEntryVote Error");
+        }
 
         public async Task DeleteEntryVote(Guid entryId)
         {
@@ -23,6 +29,13 @@ namespace BlazorSozluk.WebApp.Infrastructure.Services
             var response = await client.PostAsync($"/api/Vote/DeleteEntryCommentVote/{entryCommentId}", null);
             if (!response.IsSuccessStatusCode)
                 throw new Exception("DeleteEntryCommentVote Error");
+        }
+
+        public async Task CreateEntryDownVote(Guid entryId)
+        {
+            var response = await client.PostAsync($"/api/Vote/DeleteEntryVote/{entryId}", null);
+            if (!response.IsSuccessStatusCode)
+                throw new Exception("CreateEntryDownVote Error");
         }
     }
 }

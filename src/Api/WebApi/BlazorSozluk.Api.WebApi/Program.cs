@@ -12,10 +12,11 @@ var configuration = new ConfigurationBuilder()
     .AddJsonFile($"appsettings.{environmentName}.json", true)
     .AddEnvironmentVariables()
     .Build();
-// Add services to the container.
+
 builder.Services.AddInfrastructureRegistration(configuration);
 builder.Services.AddApplicationRegistration();
 builder.Services.ConfigureAuth(configuration);
+
 builder.Services.AddControllers().AddJsonOptions(opt =>
 {
     opt.JsonSerializerOptions.PropertyNamingPolicy = null;

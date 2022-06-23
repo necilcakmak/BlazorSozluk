@@ -58,6 +58,7 @@ namespace BlazorSozluk.Api.WebApi.Controllers
 
         [HttpGet]
         [Route("MainPageEntries")]
+        [Authorize]
         public async Task<IActionResult> GetMainPageEntries(int page, int pageSize)
         {
             var result = await mediator.Send(new GetMainPageEntriesQuery(UserId, page, pageSize));
@@ -66,6 +67,7 @@ namespace BlazorSozluk.Api.WebApi.Controllers
 
         [HttpPost]
         [Route("CreateEntry")]
+        [Authorize]
         public async Task<IActionResult> CreateEntry([FromBody] CreateEntryCommand command)
         {
             if (!command.CreatedById.HasValue)
@@ -76,6 +78,7 @@ namespace BlazorSozluk.Api.WebApi.Controllers
 
         [HttpPost]
         [Route("CreateEntryComment")]
+        [Authorize]
         public async Task<IActionResult> CreateEntryComment([FromBody] CreateEntryCommentCommand command)
         {
             if (!command.CreatedById.HasValue)
